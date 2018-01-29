@@ -74,9 +74,9 @@ module VagrantPlugins
         if config.html_output_format
           require 'json'
           require 'rspec'
-          require 'rspec_html_formatter'
+          require 'rspec_html_reporter'
           config_rspec = RSpec.configuration
-          formatter = RspecHtmlFormatter.new(config_rspec.output_stream)
+          formatter = RspecHtmlReporter.new(config_rspec.output_stream)
 
           # create reporter with RspecHtmlFormatter
           reporter =  RSpec::Core::Reporter.new(config_rspec)
@@ -84,7 +84,7 @@ module VagrantPlugins
 
           # api may not be stable, make sure lock down Rspec version
           loader = config_rspec.send(:formatter_loader)
-          notifications = loader.send(:notifications_for, RspecHtmlFormatter)
+          notifications = loader.send(:notifications_for, RspecHtmlReporter)
           reporter.register_listener(formatter, *notifications)
 	        
           status = RSpec::Core::Runner.run(@spec_files)
